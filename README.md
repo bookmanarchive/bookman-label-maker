@@ -12,6 +12,6 @@ This tool is used to create replacement labels for Franklin BOOKMAN cartridges t
 </table>
 
 ## Usage
-You can use this code a NodeJS library or through its web interface via (`npm run start`).
+You can use this code a NodeJS library or through its web interface via (`npm run start`) or online at https://franklin-bookman-label-maker.herokuapp.com/
 
 ## MIT Licensed
