@@ -1,0 +1,17 @@
+{
+  "name": "bookman-label-maker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "repository": "git@github.com:jsyang/bookman-label-maker.git",
+  "author": "jsyang <jsyang.ca@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@svgdotjs/svg.js": "^3.1.2",
+    "express": "^4.17.3",
+    "svg-text-to-path": "^1.1.2",
+    "svgdom": "^0.1.10"
+  }
+}

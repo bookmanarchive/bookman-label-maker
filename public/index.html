@@ -1,0 +1,128 @@
+<html>
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    fieldset {
+        border: 1px solid #ddd;
+    }
+
+    legend {
+        padding: .75em 1em;
+        font-weight: bold;
+        background-color: #ddd;
+    }
+
+    td {
+        vertical-align: top;
+        line-height: 1.5em;
+    }
+
+    input {
+        font-size: 1em;
+        width: 100%;
+    }
+
+    #label-mbs svg,
+    #label-bookman1 svg {
+        width: 400px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    function download(content, mimeType, filename) {
+        const a = document.createElement('a');
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        a.setAttribute('href', url);
+        a.setAttribute('download', filename);
+        a.click();
+    }
+
+    async function drawLabel(e) {
+        e.preventDefault();
+
+        const type = e.target.name;
+
+        const requestData = Object.fromEntries(new FormData(e.target));
+
+        const res = await fetch('/draw/' + type, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestData)
+        });;
+
+        const labelContainer = document.getElementById('label-' + type);
+        const svgContent = await res.text();
+        labelContainer.innerHTML = svgContent;
+        labelContainer.querySelector('svg').onclick = () => download(
+            svgContent,
+            'image/svg+xml',
+            `${requestData.cartridgeCode}.label.svg`
+        )
+    }
+</script>
+
+<body>
+    <fieldset>
+        <legend>Create a Bookman1 ROM Card Label</legend>
+
+        <form onsubmit="drawLabel(event)" name="bookman1">
+            <table width="100%" style="border:0">
+                <tr>
+                    <td width="20%">
+                        <b>
+                            Title:<br>
+                            Buttons:<br>
+                            Cartridge Code:<br>
+                        </b>
+                        <br>
+                        <i>Note: lines in "Title" field and buttons in "Buttons" field are comma separated.</i>
+                        <br><br>
+                        <input type="submit" value="Generate label">
+                    </td>
+                    <td width="40%">
+                        <input type="text" name="titleText" placeholder="Word,Games"><br>
+                        <input type="text" name="buttonText" placeholder="NEW,SCORE,HINT,ANSWER"><br>
+                        <input type="text" name="cartridgeCode" placeholder="WGM-2037"><br>
+                    </td>
+                    <td id="label-bookman1" width="40%" style="text-align: right;">
+                        <img src="WGM-2037.label.svg" style="width: 400px; opacity: 0.3">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </fieldset><br>
+
+    <fieldset>
+        <legend>Create a Medical Book System (MBS) ROM Card Label</legend>
+
+        <form onsubmit="drawLabel(event)" name="mbs">
+            <table width="100%" style="border:0">
+                <tr>
+                    <td width="20%">
+                        <b>
+                            Title:<br>
+                            Cartridge Code:<br>
+                        </b>
+                        <br>
+                        <i>Note: lines in "Title" field are comma separated.</i>
+                        <br><br>
+                        <input type="submit" value="Generate label">
+                    </td>
+                    <td width="40%">
+                        <input type="text" name="titleText"
+                            placeholder="Harrison’s Principles,of Internal Medicine"><br>
+                        <input type="text" name="cartridgeCode" placeholder="HAR-3008"><br>
+                    </td>
+                    <td id="label-mbs" width="40%" style="text-align: right;">
+                        <img src="HAR-3008.label.svg" style="width: 400px; opacity: 0.3">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </fieldset>
+</body>
+
+</html>
