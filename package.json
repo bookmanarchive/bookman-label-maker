@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "setup-heroku": "heroku git:remote -a franklin-bookman-label-maker",
+    "deploy-heroku": "git push heroku main"
   },
   "repository": "git@github.com:jsyang/bookman-label-maker.git",
   "author": "jsyang <jsyang.ca@gmail.com>",
